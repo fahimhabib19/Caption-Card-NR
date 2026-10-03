@@ -198,7 +198,6 @@
 
   const MIN_FONT = 14;
   const MIN_HEIGHT_RATIO = 1.0;   // relative to card width
-  const MAX_HEIGHT_RATIO = 1.85;  // relative to card width
 
   function layout() {
     const cardWidth = card.getBoundingClientRect().width;
@@ -239,18 +238,12 @@
 
     let fontSize = parseInt(fontSizeInput.value, 10);
     const minCardHeight = cardWidth * MIN_HEIGHT_RATIO;
-    const maxCardHeight = cardWidth * MAX_HEIGHT_RATIO;
 
-    let requiredHeight, textHeight;
-    for (let i = 0; i < 40; i++) {
-      captionEl.style.fontSize = fontSize + 'px';
-      textHeight = captionEl.scrollHeight;
-      requiredHeight = topMargin + textHeight + gapAboveLogo + logoHeight + logoMarginBottom;
-      if (requiredHeight <= maxCardHeight || fontSize <= MIN_FONT) break;
-      fontSize -= 1;
-    }
+    captionEl.style.fontSize = fontSize + 'px';
+    const textHeight = captionEl.scrollHeight;
+    const requiredHeight = topMargin + textHeight + gapAboveLogo + logoHeight + logoMarginBottom;
 
-    const finalHeight = Math.min(Math.max(requiredHeight, minCardHeight), maxCardHeight);
+    const finalHeight = Math.max(requiredHeight, minCardHeight);
     card.style.height = finalHeight + 'px';
   }
 
